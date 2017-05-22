@@ -26,9 +26,6 @@
 //  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 //////////////////////////////////////////////////////////////////////////////////////
-var __reflect = (this && this.__reflect) || function (p, c, t) {
-    p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
-};
 var mouse;
 (function (mouse) {
     var MouseEvent = (function () {
@@ -102,9 +99,7 @@ var mouse;
      */
     MouseEvent.ROLL_OUT = "rollOut";
     mouse.MouseEvent = MouseEvent;
-    __reflect(MouseEvent.prototype, "mouse.MouseEvent");
 })(mouse || (mouse = {}));
-
 //////////////////////////////////////////////////////////////////////////////////////
 //
 //  Copyright (c) 2014-present, Egret Technology.
@@ -157,7 +152,7 @@ var mouse;
                     canvas.style.cursor = "pointer";
                 }
                 else if (type == mouse.MouseEvent.ROLL_OUT) {
-                    canvas.style.cursor = "default";
+                    canvas.style.cursor = "auto";
                 }
             }
             catch (e) {
@@ -195,7 +190,7 @@ var mouse;
                 }
                 else if (result != currentTarget) {
                     dispatch(mouse.MouseEvent.MOUSE_OUT, true, x, y);
-                    if (!currentTarget.$getConcatenatedVisible() || !currentTarget.hitTestPoint(x, y)) {
+                    if (!currentTarget.$getConcatenatedVisible() || !currentTarget.hitTestPoint(x, y, true)) {
                         dispatch(mouse.MouseEvent.ROLL_OUT, false, x, y);
                     }
                     currentTarget = result;
@@ -275,4 +270,3 @@ var mouse;
         mouseMoveEnabled = enabled;
     };
 })(mouse || (mouse = {}));
-
